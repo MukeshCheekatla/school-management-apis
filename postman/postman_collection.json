@@ -21,12 +21,12 @@
           "raw": "{\n    \"name\": \"Sample School\",\n    \"address\": \"123 Main St, City\",\n    \"latitude\": 37.7749,\n    \"longitude\": -122.4194\n}"
         },
         "url": {
-          "raw": "http://localhost:3000/addSchool",
+          "raw": "http://localhost:5000/addSchool",
           "protocol": "http",
           "host": [
             "localhost"
           ],
-          "port": "3000",
+          "port": "5000",
           "path": [
             "addSchool"
           ]
@@ -45,12 +45,12 @@
           }
         ],
         "url": {
-          "raw": "http://localhost:3000/listSchools?lat=37.7749&lng=-122.4194",
+          "raw": "http://localhost:5000/listSchools?lat=37.7749&lng=-122.4194",
           "protocol": "http",
           "host": [
             "localhost"
           ],
-          "port": "3000",
+          "port": "5000",
           "path": [
             "listSchools"
           ],

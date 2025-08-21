@@ -1,7 +1,6 @@
-const mysql = require('mysql2/promise');
-const dotenv = require('dotenv');
-
-dotenv.config();
+// db.js
+const mysql = require('mysql2/promise'); // ✅ must be /promise
+require('dotenv').config();
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
@@ -13,5 +12,16 @@ const pool = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0
 });
+
+async function testConnection() {
+  try {
+    const [rows] = await pool.query('SELECT 1');
+    console.log('✅ Database connection is healthy');
+  } catch (err) {
+    console.error('❌ Database connection failed:', err);
+  }
+}
+
+testConnection();
 
 module.exports = pool;
