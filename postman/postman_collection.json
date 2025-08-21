@@ -12,9 +12,9 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/health",
+          "raw": "https://school-management-apis-exhd.onrender.com/health",
           "host": [
-            "{{baseUrl}}"
+            "https://school-management-apis-exhd.onrender.com"
           ],
           "path": [
             "health"
@@ -41,7 +41,7 @@
         "url": {
           "raw": "https://school-management-apis-exhd.onrender.com/addSchool",
           "host": [
-            "{{baseUrl}}"
+            "https://school-management-apis-exhd.onrender.com"
           ],
           "path": [
             "addSchool"
@@ -86,7 +86,7 @@
         "url": {
           "raw": "https://school-management-apis-exhd.onrender.com/listSchools?lat=17.3850&lon=78.4867",
           "host": [
-            "{{baseUrl}}"
+            "https://school-management-apis-exhd.onrender.com"
           ],
           "path": [
             "listSchools"
