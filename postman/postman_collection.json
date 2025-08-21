@@ -1,11 +1,29 @@
 {
   "info": {
-    "name": "School Management API",
-    "_postman_id": "12345678-abcd-efgh-ijkl-987654321000",
-    "description": "APIs to manage schools (Add + List by proximity).",
+    "name": "School Management APIs",
+    "_postman_id": "b9c8b0b0-9f35-4f9a-9b1a-1755792596PM",
+    "description": "Postman collection for Node.js School Management APIs: addSchool and listSchools.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "health"
+          ]
+        },
+        "description": "Simple health check to verify the server is running."
+      },
+      "response": []
+    },
     {
       "name": "Add School",
       "request": {
@@ -18,55 +36,111 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"name\": \"Sample School\",\n    \"address\": \"123 Main St, City\",\n    \"latitude\": 37.7749,\n    \"longitude\": -122.4194\n}"
+          "raw": "{\n  \"name\": \"Green Valley High School\",\n  \"address\": \"123 Main Street, Hyderabad\",\n  \"latitude\": 17.385,\n  \"longitude\": 78.4867\n}"
         },
         "url": {
-          "raw": "http://localhost:5000/addSchool",
-          "protocol": "http",
+          "raw": "https://school-management-apis-exhd.onrender.com/addSchool",
           "host": [
-            "localhost"
+            "{{baseUrl}}"
           ],
-          "port": "5000",
           "path": [
             "addSchool"
           ]
-        }
+        },
+        "description": "Adds a new school. Validates required fields and data types."
       },
-      "response": []
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 201 or 200', function () {",
+              "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});",
+              "",
+              "pm.test('Response has id', function () {",
+              "  var json = pm.response.json();",
+              "  pm.expect(json).to.have.property('id');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": [
+        {
+          "name": "Created",
+          "originalRequest": {},
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "body": "{\n  \"message\": \"School added successfully\",\n  \"id\": 42\n}"
+        }
+      ]
     },
     {
-      "name": "List Schools",
+      "name": "List Schools (sorted by distance)",
       "request": {
         "method": "GET",
-        "header": [
-          {
-            "key": "Accept",
-            "value": "application/json"
-          }
-        ],
+        "header": [],
         "url": {
-          "raw": "http://localhost:5000/listSchools?lat=37.7749&lng=-122.4194",
-          "protocol": "http",
+          "raw": "https://school-management-apis-exhd.onrender.com/listSchools?lat=17.3850&lon=78.4867",
           "host": [
-            "localhost"
+            "{{baseUrl}}"
           ],
-          "port": "5000",
           "path": [
             "listSchools"
           ],
           "query": [
             {
               "key": "lat",
-              "value": "37.7749"
+              "value": "17.3850"
             },
             {
-              "key": "lng",
-              "value": "-122.4194"
+              "key": "lon",
+              "value": "78.4867"
             }
           ]
-        }
+        },
+        "description": "Returns all schools sorted by distance (km) from the user's coordinates."
       },
-      "response": []
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Response is an array sorted by distance', function () {",
+              "  const arr = pm.response.json();",
+              "  pm.expect(Array.isArray(arr)).to.be.true;",
+              "  for (let i = 1; i < arr.length; i++) {",
+              "    pm.expect(arr[i].distance_km).to.be.at.least(arr[i-1].distance_km);",
+              "  }",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": [
+        {
+          "name": "OK",
+          "originalRequest": {},
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Green Valley High School\",\n    \"address\": \"123 Main Street, Hyderabad\",\n    \"latitude\": 17.385,\n    \"longitude\": 78.4867,\n    \"distance_km\": 0.0\n  },\n  {\n    \"id\": 2,\n    \"name\": \"Sunrise Public School\",\n    \"address\": \"Madhapur, Hyderabad\",\n    \"latitude\": 17.4416,\n    \"longitude\": 78.3911,\n    \"distance_km\": 11.1\n  }\n]"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
     }
   ]
 }
