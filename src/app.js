@@ -7,7 +7,7 @@ const mysql = require('mysql2'); // or 'mysql'
 dotenv.config();
 
 const app = express();
-const schoolsRouter = require('./src/routes/schools');
+const schoolsRouter = require('./routes/schools');
 
 app.use(cors());
 app.use(express.json({ limit: '1mb' }));
